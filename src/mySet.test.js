@@ -145,4 +145,45 @@ describe('3. mySet', () => {
         const set = new MySet([4, 8, 15, 15, 16, 23, 42]);
         assert.equal(Object.prototype.toString.call(set), '[object MySet]');
     });
+    it('есть forEach', () => {
+        const set = new MySet([4, 8, 15, 15, 16, 23, 42]);
+
+        assert.isDefined(set.forEach, 'метод forEach не определен');
+
+        const arr = [];
+        let i = 0;
+        set.forEach((item, index, currentSet) => {
+            assert.equal(index, i++, 'Индексы не совпадают');
+            assert.equal(set, currentSet, 'callback set !== original set');
+            arr.push(item);
+        });
+        const expected = [4, 8, 15, 16, 23, 42];
+
+        assert.deepEqual(arr, expected, 'ошибка в forEach');
+    });
+    it('forEach делает какие-то странные вещи...', () => {
+        const set = new MySet();
+
+        assert.isDefined(set.forEach, 'метод forEach не определен');
+
+        const object = {
+            getValue() {
+                return this.value;
+            },
+        };
+
+        const data = {
+            value: 42,
+        };
+
+        set.add(object);
+
+        const arr = [];
+        set.forEach(function (item) {
+            arr.push(item.getValue.call(this));
+        }, data);
+        const expected = [42];
+
+        assert.deepEqual(arr, expected, 'ошибка в forEach');
+    });
 });

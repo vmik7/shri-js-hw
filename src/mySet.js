@@ -2,7 +2,7 @@
 class MySet {
     constructor(data) {
         this.data = [];
-        if (data[Symbol.iterator]) {
+        if (data && data[Symbol.iterator]) {
             for (const item of data) {
                 if (!this.data.includes(item)) {
                     this.data.push(item);
@@ -74,5 +74,12 @@ class MySet {
                 return this;
             },
         };
+    }
+
+    forEach(callbackFn, thisArg) {
+        const self = this;
+        this.data.forEach((item, index) => {
+            callbackFn.call(thisArg, item, index, self);
+        });
     }
 }
