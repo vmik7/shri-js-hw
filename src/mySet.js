@@ -1,59 +1,78 @@
-// class MySet {
-//     // реализация
-// }
+// eslint-disable-next-line no-unused-vars
+class MySet {
+    constructor(data) {
+        this.data = [];
+        if (data[Symbol.iterator]) {
+            for (const item of data) {
+                if (!this.data.includes(item)) {
+                    this.data.push(item);
+                }
+            }
+        }
+        this.size = this.data.length;
+        this.keys = this.values;
 
-// // тесты
-// const set = new MySet([4, 8, 15, 15, 16, 23, 42]);
+        this[Symbol.iterator] = this.values;
+        this[Symbol.toStringTag] = 'MySet';
+    }
 
-// // хранит только уникальные значения
-// console.log([...set]); // [ 4, 8, 15, 16, 23, 42 ]
+    clear() {
+        this.data = [];
+        this.size = 0;
+    }
 
-// // есть свойство size
-// console.log(set.size); // 6
+    has(value) {
+        return this.data.includes(value);
+    }
 
-// // работает в цикле for-of
-// for (const item of set) {
-//     console.log(item); // 4 8 15 16 23 42
-// }
+    add(value) {
+        if (!this.data.includes(value)) {
+            this.data.push(value);
+            this.size++;
+        }
+        return this;
+    }
 
-// // есть методы keys, values, entries
-// for (const item of set.entries()) {
-//     console.log(item); // [ 4, 4 ] [ 8, 8 ] ...
-// }
+    delete(value) {
+        const index = this.data.indexOf(value);
+        if (index !== -1) {
+            this.data.splice(index, 1);
+            this.size--;
+            return true;
+        }
+        return false;
+    }
 
-// // есть метод clear
-// set.clear();
-// console.log(set.size); // 0
+    values() {
+        const self = this;
+        return {
+            i: 0,
+            next() {
+                if (this.i < self.size) {
+                    return { value: self.data[this.i++], done: false };
+                }
+                return { value: undefined, done: true };
+            },
+            [Symbol.iterator]() {
+                return this;
+            },
+        };
+    }
 
-// const testObject = {
-//     getValue() {
-//         return this.value;
-//     },
-// };
-
-// const data = {
-//     value: 42,
-// };
-
-// // есть метод add
-// set.add(testObject);
-// set.add(data);
-
-// // есть метод delete
-// set.delete(data);
-
-// // есть метод has
-// console.log(set.has({})); // false
-// console.log(set.has(testObject)); // true
-// console.log(set.has(data)); // false
-
-// // и кое-что еще
-// console.log(set === set.valueOf()); // true
-// console.log(String(set)); // [object MySet]
-// console.log(Object.prototype.toString.call(set)); // [object MySet]
-
-// // задание со звездочкой *
-// // есть forEach, который делает какие-то странные вещи...
-// set.forEach(function (item) {
-//     console.log(item.getValue.call(this)); // 42
-// }, data);
+    entries() {
+        const self = this;
+        return {
+            i: 0,
+            next() {
+                if (this.i < self.size) {
+                    const value = self.data[this.i++];
+                    return { value: [value, value], done: false };
+                }
+                return { value: undefined, done: true };
+            },
+            [Symbol.iterator]() {
+                return this;
+            },
+        };
+    }
+}
