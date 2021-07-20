@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-describe('allKeysAndSymbols', () => {
+describe('1. allKeysAndSymbols', () => {
     it('находит перечисляемые свойства', () => {
         const obj = {
             name: 'Ivan',
@@ -96,9 +96,6 @@ describe('allKeysAndSymbols', () => {
     it('правильно работает с массивом', () => {
         const arr = [1, 2, 3];
         const result = allKeysAndSymbols(arr);
-
-        console.log(arr);
-        console.log(result);
 
         assert.isArray(result, 'результат выполнения не является массивом');
 

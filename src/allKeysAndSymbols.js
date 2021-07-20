@@ -18,5 +18,3 @@ function allKeysAndSymbols(obj) {
 
     return Array.from(set);
 }
-
-// export default allKeysAndSymbols;
