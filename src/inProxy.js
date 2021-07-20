@@ -1,7 +1,7 @@
 const proto = { value: 42 };
-const object = Object.create(proto);
+const testObject = Object.create(proto);
 
-Object.defineProperty(object, 'year', {
+Object.defineProperty(testObject, 'year', {
     value: 2020,
     writable: true,
     configurable: true,
@@ -9,14 +9,21 @@ Object.defineProperty(object, 'year', {
 });
 
 const symbol = Symbol('bazzinga');
-object[symbol] = 42;
+testObject[symbol] = 42;
 
 // без proxy
-console.log('value' in object); // true
-console.log('year' in object); // true
-console.log(symbol in object); // true
+// console.log('value' in testObject); // true
+// console.log('year' in testObject); // true
+// console.log(symbol in testObject); // true
 
-// const proxy = // реализация
+// const proxy = new Proxy(testObject, {
+//     has(target, prop) {
+//         return (
+//             Object.getOwnPropertyNames(target).includes(prop) ||
+//             Object.getOwnPropertySymbols(target).includes(prop)
+//         );
+//     },
+// });
 
 // с proxy
 // console.log('value' in proxy); // false

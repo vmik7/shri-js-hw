@@ -1,5 +1,9 @@
+// eslint-disable-next-line no-unused-vars
 function allKeysAndSymbols(obj) {
-    const keys = Object.keys(obj);
+    const keys = [
+        ...Object.getOwnPropertyNames(obj),
+        ...Object.getOwnPropertySymbols(obj),
+    ];
 
     let prototype = Object.getPrototypeOf(obj);
     while (prototype) {
@@ -15,4 +19,4 @@ function allKeysAndSymbols(obj) {
     return Array.from(set);
 }
 
-export default allKeysAndSymbols;
+// export default allKeysAndSymbols;

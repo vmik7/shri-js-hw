@@ -5,8 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <!-- Стили для mocha -->
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
 </head>
 <body>
+    <!-- Сюда будут выводиться результаты тестов -->
+    <div id="mocha"></div>
+
+    <!-- Скрипты mocha и chai -->
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+
+    <!-- Инициализация mocha и chai -->
+    <script class="mocha-init">
+        mocha.setup('bdd');
+        mocha.checkLeaks();
+
+        const assert = chai.assert;
+    </script>
+
+    <!-- 1. allKeysAndSymbols -->
+    <script src="src/allKeysAndSymbols.js"></script>
+    <script src="src/allKeysAndSymbols.test.js"></script>
+
+    <!-- 2. inProxy -->
+    <script src="src/inProxy.js"></script>
+    <script src="src/inProxy.test.js"></script>
+
+    <!-- 3. mySet -->
+    <script src="src/mySet.js"></script>
+    <script src="src/mySet.test.js"></script>
+
+    <!-- Запуск тестов -->
+    <script class="mocha-exec">
+        mocha.run();
+    </script>
+
+    <!-- Мой скрипт -->
     <script src="src/index.js" type="module"></script>
 </body>
 </html>
