@@ -1,84 +1,63 @@
 // eslint-disable-next-line no-unused-vars
 class MySet {
     constructor(data) {
-        this.data = [];
+        this._data = [];
         if (data && data[Symbol.iterator]) {
             for (const item of data) {
-                if (!this.data.includes(item)) {
-                    this.data.push(item);
+                if (!this._data.includes(item)) {
+                    this._data.push(item);
                 }
             }
         }
-        this.size = this.data.length;
         this.keys = this.values;
 
         this[Symbol.iterator] = this.values;
         this[Symbol.toStringTag] = 'MySet';
     }
 
+    get size() {
+        return this._data.length;
+    }
+
     clear() {
-        this.data = [];
-        this.size = 0;
+        this._data = [];
     }
 
     has(value) {
-        return this.data.includes(value);
+        return this._data.includes(value);
     }
 
     add(value) {
-        if (!this.data.includes(value)) {
-            this.data.push(value);
-            this.size++;
+        if (!this._data.includes(value)) {
+            this._data.push(value);
         }
         return this;
     }
 
     delete(value) {
-        const index = this.data.indexOf(value);
+        const index = this._data.indexOf(value);
         if (index !== -1) {
-            this.data.splice(index, 1);
-            this.size--;
+            this._data.splice(index, 1);
             return true;
         }
         return false;
     }
 
-    values() {
-        const self = this;
-        return {
-            i: 0,
-            next() {
-                if (this.i < self.size) {
-                    return { value: self.data[this.i++], done: false };
-                }
-                return { value: undefined, done: true };
-            },
-            [Symbol.iterator]() {
-                return this;
-            },
-        };
+    *values() {
+        for (const value of this._data) {
+            yield value;
+        }
     }
 
-    entries() {
-        const self = this;
-        return {
-            i: 0,
-            next() {
-                if (this.i < self.size) {
-                    const value = self.data[this.i++];
-                    return { value: [value, value], done: false };
-                }
-                return { value: undefined, done: true };
-            },
-            [Symbol.iterator]() {
-                return this;
-            },
-        };
+    *entries() {
+        for (const value of this._data) {
+            yield [value, value];
+        }
     }
 
     forEach(callbackFn, thisArg) {
         const self = this;
-        this.data.forEach((item, index) => {
+        this._data.forEach((item, index) => {
             callbackFn.call(thisArg, item, index, self);
         });
     }
